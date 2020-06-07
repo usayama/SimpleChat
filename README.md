@@ -1,22 +1,38 @@
 # docker-vue-firebase
 Vue Cli + Firebaseの環境をすぐつくるやつ
 
-##### Vueのコンテナに入る
+## Create App
+
+##### ビルド
 
 ```bash
-$ docker-compose exec vue ash
+$ docker-compose build
 ```
 
 ##### Vue CLIでアプリを作成
 
-```
-# vue create .
+```bash
+$ docker-compose run --rm vue vue create .
 ```
 
-##### Vueアプリを起動
+## Serve App
 
+##### コンテナを起動すると、vueアプリを起動するコマンドが実行される
+
+```bash
+$ docker-compose up
 ```
-# npm run serve
+
+## Init Firebase
+
+##### index.htmlにFirebaseのコードを追加
+
+- Setting / 全般 / Firebase SDK snippet
+
+##### コンテナをバックグラウンドで起動
+
+```bash
+$ docker-compose up -d
 ```
 
 ##### Firebaseのコンテナに入る
@@ -31,29 +47,74 @@ $ docker-compose exec firebase ash
 # firebase login --no-localhost
 ```
 
-#####  Firebaseの設定
+- ##### Firebaseを初期化
 
-```
-# firebase init
-```
+  ```
+  # firebase init
+  ```
 
-- 質問に答えていく
-- ディレクトリは `dist` を指定する
+  - publicディレクトリを使うかは `dist`
+  - SPAにするかは `No`
 
-##### vueのコンテナに入る
+  - index.htmlを上書きするかは `No`
+
+##### Firebaseのコンテナを落としてもOK
 
 ```bash
-$ docker-compose exec vue ash
+$ docker-compose down
 ```
 
-##### 本番ビルド
+## Deploy
+
+##### Vueアプリをビルドする
+
+```bash
+$ docker-compose run --rm vue npm run build
+```
+
+##### コンテナをバックグラウンドで立ち上げる
+
+```bash
+$ docker-compose up -d
+```
+
+##### Firebaseのコンテナに入る
+
+```bash
+$ docker-compose exec firebase ash
+```
+
+##### Firebaseログイン
 
 ```
-# npm run build
+# firebase login --no-localhost
 ```
 
 ##### Firebaseデプロイ
 
 ```
 # firebase deploy
+```
+
+#### ★トークンでログインしてデプロイする方法
+
+##### Firebaseログインのときに `:ci` をつけてトークンを発行
+
+```
+# firebase login:ci --no-localhost
+```
+
+##### docker-compose.ymlの環境変数にFirebaseのトークンを追加
+
+```yaml
+services:
+  firebase:
+    environment: 
+      - FIREBASE_TOKEN=トークン
+```
+
+##### Firebaseデプロイ
+
+```bash
+$ docker-compose run --rm firebase firebase deploy
 ```
