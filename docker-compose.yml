@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  vue:
+    build:
+      context: ./
+      dockerfile: vue.dockerfile
+    container_name: vue
+    ports:
+      - 8080:8080
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    tty: true
+    stdin_open: true
+#   command: /bin/sh
+    command: ash -c "npm install && npm run serve"
+
+  firebase:
+    build:
+      context: ./
+      dockerfile: firebase.dockerfile
+    container_name: firebase
+    ports:
+      - 9005:8081
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    tty: true
+    stdin_open: true
+    command: /bin/sh
