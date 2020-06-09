@@ -26,7 +26,7 @@ $ docker-compose up
 ##### エラーが出て起動できなかった場合は `npm install` する
 
 ```bash
-$ docker-compose run --rm react npm install
+$ docker-compose run --rm vue npm install
 ```
 
 
