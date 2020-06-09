@@ -12,7 +12,7 @@ services:
       - ./app:/app
     tty: true
     stdin_open: true
-    command: npm run serve
+    command: ash -c "npm run build && npm run serve"
 
   firebase:
     build:
