@@ -12,6 +12,8 @@ services:
       - ./app:/app
     tty: true
     stdin_open: true
+    environment:
+      - VUE_APP_FIREBASE_URL=
     command: ash -c "npm run build && npm run serve"
 
   firebase:
