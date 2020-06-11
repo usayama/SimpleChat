@@ -1,66 +1,6 @@
 # docker-vue-firebase
 Vue Cli + Firebaseの環境をすぐつくるやつ
 
-# Docker｜Vue + Firebase環境
-
-
-
-## File
-
-##### vue.dockerfile
-
-```dockerfile
-FROM node:lts-alpine
-
-RUN apk update && \
-    npm install -g @vue/cli
-```
-
-##### firebase.dockerfile
-
-```dockerfile
-FROM node:lts-alpine
-
-RUN apk update && \
-    npm install -g firebase-tools
-```
-
-##### docker-compose.yml
-
-```yaml
-version: '3.8'
-services:
-  vue:
-    build:
-      context: ./
-      dockerfile: vue.dockerfile
-    container_name: vue
-    ports:
-      - 8080:8080
-    working_dir: /app
-    volumes:
-      - ./app:/app
-    tty: true
-    stdin_open: true
-    command: ash -c "npm run build && npm run serve"
-
-  firebase:
-    build:
-      context: ./
-      dockerfile: firebase.dockerfile
-    container_name: firebase
-    ports:
-      - 9005:8081
-    working_dir: /app
-    volumes:
-      - ./app:/app
-    tty: true
-    stdin_open: true
-    command: /bin/sh
-```
-
-
-
 ## Create App
 
 ##### ビルド
