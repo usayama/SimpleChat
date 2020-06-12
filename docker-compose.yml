@@ -13,7 +13,7 @@ services:
     tty: true
     stdin_open: true
     environment:
-      - VUE_APP_FIREBASE_URL=
+      - VUE_APP_FIREBASE_URL=https://underflow-samplechat.web.app/
     command: ash -c "npm run build && npm run serve"
 
   firebase:
