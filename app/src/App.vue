@@ -56,7 +56,7 @@ export default {
         window.scrollTo(0, document.body.clientHeight)
       })
     },
-    // 受け取ったメッセージをpostsに追加
+    // 受け取ったポストをpostsに追加
     // データベースに新しい要素が追加されると随時呼び出される
     childAdded(snap) {
       const post = snap.val()
@@ -73,7 +73,7 @@ export default {
         // Firebaseにメッセージを送信
         await firebase
           .database()
-          .ref('post')
+          .ref('posts')
           .push({
             message: this.inputedMessage,
             name: this.user.displayName,
@@ -86,14 +86,14 @@ export default {
   created() {
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
-      const ref_post = firebase.database().ref('post')
+      const ref_posts = firebase.database().ref('posts')
       if (user) {
         this.posts = []
-        // message に変更があったときのハンドラを登録
-        ref_post.limitToLast(10).on('child_added', this.childAdded)
+        // posts に変更があったときのハンドラを登録
+        ref_posts.limitToLast(10).on('child_added', this.childAdded)
       } else {
-        // message に変更があったときのハンドラを登録
-        ref_post.limitToLast(10).off('child_added', this.childAdded)
+        // posts に変更があったときのハンドラを登録
+        ref_posts.limitToLast(10).off('child_added', this.childAdded)
       }
     })
   }
