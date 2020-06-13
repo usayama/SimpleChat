@@ -44,10 +44,6 @@ export default {
   },
   computed: {},
   methods: {
-    test() {
-      const refpost = firebase.database().ref('post')
-      return refpost.limitToLast(1).on('child_added', this.childAdded)
-    },
     doLogin() {
       const provider = new firebase.auth.TwitterAuthProvider()
       firebase.auth().signInWithPopup(provider)
